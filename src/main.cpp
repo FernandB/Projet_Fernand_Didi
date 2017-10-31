@@ -6,7 +6,8 @@
 #include <list>
 
 #include <Box2D/Box2D.h>
-
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
 void CheckUserData(void* userData, PlatformerCharacter** pCharPtr, Platform** platformPtr)
 {
 	ContactData* data = static_cast<ContactData*>(userData);
@@ -39,7 +40,18 @@ class MyContactListener : public b2ContactListener
 		}
 		if (platform != nullptr && pChar != nullptr)
 		{
-			pChar->touch_ground();
+			if (platform->get_y_center_position() == WINDOW_HEIGHT - pChar->get_x_center_position())
+				pChar->touch_ground();
+
+			if (platform->get_x_center_position() < pChar->get_x_center_position())
+			{
+				pChar->touch_left_Wall();
+			}
+			else
+			{
+				if(platform->get_x_center_position() > pChar->get_x_center_position())
+					pChar->touch_right_Wall();
+			}
 		}
 
 	}
@@ -58,7 +70,18 @@ class MyContactListener : public b2ContactListener
 		}
 		if (platform != nullptr && pChar != nullptr)
 		{
-			pChar->leave_ground();
+			if (platform->get_y_center_position() == WINDOW_HEIGHT - platform->getSize().y)
+				pChar->touch_ground();
+
+			if (platform->get_x_center_position() < pChar->get_x_center_position())
+			{
+				pChar->touch_left_Wall();
+			}
+			else
+			{
+				if (platform->get_x_center_position() > pChar->get_x_center_position())
+					pChar->touch_right_Wall();
+			}
 		}
 	}
 };
@@ -75,7 +98,7 @@ int main()
 	//in FooTest constructor
 	myWorld.SetContactListener(&myContactListenerInstance);
 
-	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH,WINDOW_HEIGHT), "SFML works!");
 	window.setFramerateLimit(framerate);
 	
 
@@ -101,10 +124,12 @@ int main()
 		float move_axis = 0.0f;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
+			jump_button = true;
 			move_axis -= 1.0f;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
+			jump_button = true;
 			move_axis += 1.0f;
 		}
 		myWorld.Step(timeStep, velocityIterations, positionIterations);

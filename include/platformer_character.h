@@ -14,8 +14,15 @@ public:
 	void draw(sf::RenderWindow&);
 	void touch_ground();
 	void leave_ground();
+	void touch_right_Wall();
+	void leave_right_Wall();
+	void touch_left_Wall();
+	void leave_left_Wall();
+	float get_x_center_position();
 private:
 	int foot = 0;
+	int right = 0;
+	int left = 0;
 	b2Body* body;
 	sf::RectangleShape rect;
 	sf::Vector2f center_position = sf::Vector2f(400.f, 300.f);
@@ -23,6 +30,9 @@ private:
 	const float walk_speed = 5.0f;
 	const float jump_speed = 10.f;
 	ContactData contactData;
+	ContactData contactDataRight;
+	ContactData contactDataLeft;
+
 };
 
 #endif // !PLATFORMER_CHAR_H

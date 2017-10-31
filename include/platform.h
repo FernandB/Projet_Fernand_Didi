@@ -11,8 +11,11 @@ public:
 	Platform(b2World& world, 
 		sf::Vector2f position=sf::Vector2f(400.f,600.f),
 		sf::Vector2f size = sf::Vector2f(800.f, 100.f));
-	~Platform();
 
+	~Platform();
+	sf::Vector2f getSize();
+	float get_y_center_position();
+	float get_x_center_position();
 	void draw(sf::RenderWindow&);
 private:
 	b2Body* body;

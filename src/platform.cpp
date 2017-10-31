@@ -29,6 +29,21 @@ Platform::~Platform()
 {
 }
 
+sf::Vector2f Platform::getSize()
+{
+	return size;
+}
+
+float Platform::get_y_center_position()
+{
+	return center_position.y;
+}
+
+float Platform::get_x_center_position()
+{
+	return center_position.x;
+}
+
 void Platform::draw(sf::RenderWindow & window)
 {
 	window.draw(rect);
